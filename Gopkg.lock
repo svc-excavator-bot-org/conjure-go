@@ -341,7 +341,6 @@
   analyzer-version = 1
   input-imports = [
     "github.com/danverbraganza/varcaser/varcaser",
-    "github.com/google/uuid",
     "github.com/julienschmidt/httprouter",
     "github.com/nmiyake/pkg/dirs",
     "github.com/palantir/checks/ptimports/ptimports",

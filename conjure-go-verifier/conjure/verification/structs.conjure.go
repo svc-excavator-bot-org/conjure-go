@@ -5,8 +5,6 @@ package verification
 import (
 	"encoding/json"
 
-	"github.com/google/uuid"
-
 	"github.com/palantir/conjure-go/conjure/types/conjuretype"
 )
 
@@ -77,7 +75,7 @@ type IntegerExample struct {
 }
 
 type RidExample struct {
-	Value conjuretype.Rid `json:"value" yaml:"value,omitempty"`
+	Value conjuretype.ResourceIdentifier `json:"value" yaml:"value,omitempty"`
 }
 
 type SafeLongExample struct {
@@ -89,7 +87,7 @@ type StringExample struct {
 }
 
 type UuidExample struct {
-	Value uuid.UUID `json:"value" yaml:"value,omitempty"`
+	Value conjuretype.UUID `json:"value" yaml:"value,omitempty"`
 }
 
 type AnyExample struct {

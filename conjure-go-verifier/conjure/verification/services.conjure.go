@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"net/url"
 
-	"github.com/google/uuid"
 	"github.com/palantir/conjure-go-runtime/conjure-go-client/httpclient"
 
 	"github.com/palantir/conjure-go/conjure/types/conjuretype"
@@ -18,10 +17,10 @@ type SinglePathParamServiceClient interface {
 	PathParamDatetime(ctx context.Context, indexArg int, datetimeParamArg conjuretype.DateTime) error
 	PathParamDouble(ctx context.Context, indexArg int, doubleParamArg float64) error
 	PathParamInteger(ctx context.Context, indexArg int, integerParamArg int) error
-	PathParamRid(ctx context.Context, indexArg int, ridParamArg conjuretype.Rid) error
+	PathParamRid(ctx context.Context, indexArg int, ridParamArg conjuretype.ResourceIdentifier) error
 	PathParamSafelong(ctx context.Context, indexArg int, safelongParamArg conjuretype.SafeLong) error
 	PathParamString(ctx context.Context, indexArg int, stringParamArg string) error
-	PathParamUuid(ctx context.Context, indexArg int, uuidParamArg uuid.UUID) error
+	PathParamUuid(ctx context.Context, indexArg int, uuidParamArg conjuretype.UUID) error
 	PathParamAliasString(ctx context.Context, indexArg int, aliasStringParamArg AliasString) error
 }
 
@@ -85,7 +84,7 @@ func (c *singlePathParamServiceClient) PathParamInteger(ctx context.Context, ind
 	return nil
 }
 
-func (c *singlePathParamServiceClient) PathParamRid(ctx context.Context, indexArg int, ridParamArg conjuretype.Rid) error {
+func (c *singlePathParamServiceClient) PathParamRid(ctx context.Context, indexArg int, ridParamArg conjuretype.ResourceIdentifier) error {
 	var requestParams []httpclient.RequestParam
 	requestParams = append(requestParams, httpclient.WithRPCMethodName("PathParamRid"))
 	requestParams = append(requestParams, httpclient.WithRequestMethod("POST"))
@@ -124,7 +123,7 @@ func (c *singlePathParamServiceClient) PathParamString(ctx context.Context, inde
 	return nil
 }
 
-func (c *singlePathParamServiceClient) PathParamUuid(ctx context.Context, indexArg int, uuidParamArg uuid.UUID) error {
+func (c *singlePathParamServiceClient) PathParamUuid(ctx context.Context, indexArg int, uuidParamArg conjuretype.UUID) error {
 	var requestParams []httpclient.RequestParam
 	requestParams = append(requestParams, httpclient.WithRPCMethodName("PathParamUuid"))
 	requestParams = append(requestParams, httpclient.WithRequestMethod("POST"))
@@ -156,10 +155,10 @@ type SingleHeaderServiceClient interface {
 	HeaderDatetime(ctx context.Context, indexArg int, headerDatetimeArg conjuretype.DateTime) error
 	HeaderDouble(ctx context.Context, indexArg int, headerDoubleArg float64) error
 	HeaderInteger(ctx context.Context, indexArg int, headerIntegerArg int) error
-	HeaderRid(ctx context.Context, indexArg int, headerRidArg conjuretype.Rid) error
+	HeaderRid(ctx context.Context, indexArg int, headerRidArg conjuretype.ResourceIdentifier) error
 	HeaderSafelong(ctx context.Context, indexArg int, headerSafelongArg conjuretype.SafeLong) error
 	HeaderString(ctx context.Context, indexArg int, headerStringArg string) error
-	HeaderUuid(ctx context.Context, indexArg int, headerUuidArg uuid.UUID) error
+	HeaderUuid(ctx context.Context, indexArg int, headerUuidArg conjuretype.UUID) error
 	HeaderOptionalString(ctx context.Context, indexArg int, headerOptionalStringArg *string) error
 	HeaderAliasString(ctx context.Context, indexArg int, headerAliasStringArg AliasString) error
 }
@@ -242,7 +241,7 @@ func (c *singleHeaderServiceClient) HeaderInteger(ctx context.Context, indexArg 
 	return nil
 }
 
-func (c *singleHeaderServiceClient) HeaderRid(ctx context.Context, indexArg int, headerRidArg conjuretype.Rid) error {
+func (c *singleHeaderServiceClient) HeaderRid(ctx context.Context, indexArg int, headerRidArg conjuretype.ResourceIdentifier) error {
 	var requestParams []httpclient.RequestParam
 	requestParams = append(requestParams, httpclient.WithRPCMethodName("HeaderRid"))
 	requestParams = append(requestParams, httpclient.WithRequestMethod("POST"))
@@ -284,7 +283,7 @@ func (c *singleHeaderServiceClient) HeaderString(ctx context.Context, indexArg i
 	return nil
 }
 
-func (c *singleHeaderServiceClient) HeaderUuid(ctx context.Context, indexArg int, headerUuidArg uuid.UUID) error {
+func (c *singleHeaderServiceClient) HeaderUuid(ctx context.Context, indexArg int, headerUuidArg conjuretype.UUID) error {
 	var requestParams []httpclient.RequestParam
 	requestParams = append(requestParams, httpclient.WithRPCMethodName("HeaderUuid"))
 	requestParams = append(requestParams, httpclient.WithRequestMethod("POST"))
@@ -929,10 +928,10 @@ type SingleQueryParamServiceClient interface {
 	QueryParamBoolean(ctx context.Context, indexArg int, someQueryArg bool) error
 	QueryParamDouble(ctx context.Context, indexArg int, someQueryArg float64) error
 	QueryParamInteger(ctx context.Context, indexArg int, someQueryArg int) error
-	QueryParamRid(ctx context.Context, indexArg int, someQueryArg conjuretype.Rid) error
+	QueryParamRid(ctx context.Context, indexArg int, someQueryArg conjuretype.ResourceIdentifier) error
 	QueryParamSafelong(ctx context.Context, indexArg int, someQueryArg conjuretype.SafeLong) error
 	QueryParamString(ctx context.Context, indexArg int, someQueryArg string) error
-	QueryParamUuid(ctx context.Context, indexArg int, someQueryArg uuid.UUID) error
+	QueryParamUuid(ctx context.Context, indexArg int, someQueryArg conjuretype.UUID) error
 	QueryParamOptionalString(ctx context.Context, indexArg int, someQueryArg *string) error
 	QueryParamAliasString(ctx context.Context, indexArg int, someQueryArg AliasString) error
 }
@@ -1009,7 +1008,7 @@ func (c *singleQueryParamServiceClient) QueryParamInteger(ctx context.Context, i
 	return nil
 }
 
-func (c *singleQueryParamServiceClient) QueryParamRid(ctx context.Context, indexArg int, someQueryArg conjuretype.Rid) error {
+func (c *singleQueryParamServiceClient) QueryParamRid(ctx context.Context, indexArg int, someQueryArg conjuretype.ResourceIdentifier) error {
 	var requestParams []httpclient.RequestParam
 	requestParams = append(requestParams, httpclient.WithRPCMethodName("QueryParamRid"))
 	requestParams = append(requestParams, httpclient.WithRequestMethod("POST"))
@@ -1057,7 +1056,7 @@ func (c *singleQueryParamServiceClient) QueryParamString(ctx context.Context, in
 	return nil
 }
 
-func (c *singleQueryParamServiceClient) QueryParamUuid(ctx context.Context, indexArg int, someQueryArg uuid.UUID) error {
+func (c *singleQueryParamServiceClient) QueryParamUuid(ctx context.Context, indexArg int, someQueryArg conjuretype.UUID) error {
 	var requestParams []httpclient.RequestParam
 	requestParams = append(requestParams, httpclient.WithRPCMethodName("QueryParamUuid"))
 	requestParams = append(requestParams, httpclient.WithRequestMethod("POST"))
