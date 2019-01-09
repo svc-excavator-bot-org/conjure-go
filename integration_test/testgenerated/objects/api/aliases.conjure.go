@@ -7,22 +7,6 @@ import (
 	"github.com/palantir/pkg/uuid"
 )
 
-type OptionalUuidAlias *uuid.UUID
-type UuidAlias uuid.UUID
-
-func (a UuidAlias) MarshalText() ([]byte, error) {
-	return uuid.UUID(a).MarshalText()
-}
-
-func (a *UuidAlias) UnmarshalText(data []byte) error {
-	var rawUuidAlias uuid.UUID
-	if err := rawUuidAlias.UnmarshalText(data); err != nil {
-		return err
-	}
-	*a = UuidAlias(rawUuidAlias)
-	return nil
-}
-
 type UuidAlias2 Compound
 
 func (a UuidAlias2) MarshalJSON() ([]byte, error) {
@@ -52,3 +36,18 @@ func (a *UuidAlias2) UnmarshalYAML(unmarshal func(interface{}) error) error {
 }
 
 type BinaryAlias []byte
+type OptionalUuidAlias *uuid.UUID
+type UuidAlias uuid.UUID
+
+func (a UuidAlias) MarshalText() ([]byte, error) {
+	return uuid.UUID(a).MarshalText()
+}
+
+func (a *UuidAlias) UnmarshalText(data []byte) error {
+	var rawUuidAlias uuid.UUID
+	if err := rawUuidAlias.UnmarshalText(data); err != nil {
+		return err
+	}
+	*a = UuidAlias(rawUuidAlias)
+	return nil
+}

@@ -11,6 +11,14 @@ type Basic struct {
 	Data string `json:"data" yaml:"data,omitempty"`
 }
 
+type Compound struct {
+	Obj Collections `json:"obj" yaml:"obj,omitempty"`
+}
+
+type ExampleUuid struct {
+	Uid uuid.UUID `json:"uid" yaml:"uid,omitempty"`
+}
+
 type Collections struct {
 	MapVar   map[string][]int   `json:"mapVar" yaml:"mapVar,omitempty"`
 	ListVar  []string           `json:"listVar" yaml:"listVar,omitempty"`
@@ -81,12 +89,4 @@ func (o *Collections) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	}
 	*o = Collections(rawCollections)
 	return nil
-}
-
-type Compound struct {
-	Obj Collections `json:"obj" yaml:"obj,omitempty"`
-}
-
-type ExampleUuid struct {
-	Uid uuid.UUID `json:"uid" yaml:"uid,omitempty"`
 }
