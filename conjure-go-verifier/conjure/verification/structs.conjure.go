@@ -8,15 +8,16 @@ import (
 	"github.com/palantir/pkg/rid"
 	"github.com/palantir/pkg/safejson"
 	"github.com/palantir/pkg/safelong"
+	"github.com/palantir/pkg/safeyaml"
 	"github.com/palantir/pkg/uuid"
 )
 
 type BearerTokenExample struct {
-	Value bearertoken.Token `json:"value" yaml:"value,omitempty"`
+	Value bearertoken.Token `json:"value"`
 }
 
 type BinaryExample struct {
-	Value []byte `json:"value" yaml:"value,omitempty"`
+	Value []byte `json:"value"`
 }
 
 func (o BinaryExample) MarshalJSON() ([]byte, error) {
@@ -41,64 +42,59 @@ func (o *BinaryExample) UnmarshalJSON(data []byte) error {
 }
 
 func (o BinaryExample) MarshalYAML() (interface{}, error) {
-	if o.Value == nil {
-		o.Value = make([]byte, 0)
+	jsonBytes, err := safejson.Marshal(o)
+	if err != nil {
+		return nil, err
 	}
-	type BinaryExampleAlias BinaryExample
-	return BinaryExampleAlias(o), nil
+	return safeyaml.JSONtoYAMLMapSlice(jsonBytes)
 }
 
 func (o *BinaryExample) UnmarshalYAML(unmarshal func(interface{}) error) error {
-	type BinaryExampleAlias BinaryExample
-	var rawBinaryExample BinaryExampleAlias
-	if err := unmarshal(&rawBinaryExample); err != nil {
+	jsonBytes, err := safeyaml.YAMLUnmarshalerToJSONBytes(unmarshal)
+	if err != nil {
 		return err
 	}
-	if rawBinaryExample.Value == nil {
-		rawBinaryExample.Value = make([]byte, 0)
-	}
-	*o = BinaryExample(rawBinaryExample)
-	return nil
+	return safejson.Unmarshal(jsonBytes, *&o)
 }
 
 type BooleanExample struct {
-	Value bool `json:"value" yaml:"value,omitempty"`
+	Value bool `json:"value"`
 }
 
 type DateTimeExample struct {
-	Value datetime.DateTime `json:"value" yaml:"value,omitempty"`
+	Value datetime.DateTime `json:"value"`
 }
 
 type DoubleExample struct {
-	Value float64 `json:"value" yaml:"value,omitempty"`
+	Value float64 `json:"value"`
 }
 
 type IntegerExample struct {
-	Value int `json:"value" yaml:"value,omitempty"`
+	Value int `json:"value"`
 }
 
 type RidExample struct {
-	Value rid.ResourceIdentifier `json:"value" yaml:"value,omitempty"`
+	Value rid.ResourceIdentifier `json:"value"`
 }
 
 type SafeLongExample struct {
-	Value safelong.SafeLong `json:"value" yaml:"value,omitempty"`
+	Value safelong.SafeLong `json:"value"`
 }
 
 type StringExample struct {
-	Value string `json:"value" yaml:"value,omitempty"`
+	Value string `json:"value"`
 }
 
 type UuidExample struct {
-	Value uuid.UUID `json:"value" yaml:"value,omitempty"`
+	Value uuid.UUID `json:"value"`
 }
 
 type AnyExample struct {
-	Value interface{} `json:"value" yaml:"value,omitempty"`
+	Value interface{} `json:"value"`
 }
 
 type ListExample struct {
-	Value []string `json:"value" yaml:"value,omitempty"`
+	Value []string `json:"value"`
 }
 
 func (o ListExample) MarshalJSON() ([]byte, error) {
@@ -123,28 +119,23 @@ func (o *ListExample) UnmarshalJSON(data []byte) error {
 }
 
 func (o ListExample) MarshalYAML() (interface{}, error) {
-	if o.Value == nil {
-		o.Value = make([]string, 0)
+	jsonBytes, err := safejson.Marshal(o)
+	if err != nil {
+		return nil, err
 	}
-	type ListExampleAlias ListExample
-	return ListExampleAlias(o), nil
+	return safeyaml.JSONtoYAMLMapSlice(jsonBytes)
 }
 
 func (o *ListExample) UnmarshalYAML(unmarshal func(interface{}) error) error {
-	type ListExampleAlias ListExample
-	var rawListExample ListExampleAlias
-	if err := unmarshal(&rawListExample); err != nil {
+	jsonBytes, err := safeyaml.YAMLUnmarshalerToJSONBytes(unmarshal)
+	if err != nil {
 		return err
 	}
-	if rawListExample.Value == nil {
-		rawListExample.Value = make([]string, 0)
-	}
-	*o = ListExample(rawListExample)
-	return nil
+	return safejson.Unmarshal(jsonBytes, *&o)
 }
 
 type SetStringExample struct {
-	Value []string `json:"value" yaml:"value,omitempty"`
+	Value []string `json:"value"`
 }
 
 func (o SetStringExample) MarshalJSON() ([]byte, error) {
@@ -169,28 +160,23 @@ func (o *SetStringExample) UnmarshalJSON(data []byte) error {
 }
 
 func (o SetStringExample) MarshalYAML() (interface{}, error) {
-	if o.Value == nil {
-		o.Value = make([]string, 0)
+	jsonBytes, err := safejson.Marshal(o)
+	if err != nil {
+		return nil, err
 	}
-	type SetStringExampleAlias SetStringExample
-	return SetStringExampleAlias(o), nil
+	return safeyaml.JSONtoYAMLMapSlice(jsonBytes)
 }
 
 func (o *SetStringExample) UnmarshalYAML(unmarshal func(interface{}) error) error {
-	type SetStringExampleAlias SetStringExample
-	var rawSetStringExample SetStringExampleAlias
-	if err := unmarshal(&rawSetStringExample); err != nil {
+	jsonBytes, err := safeyaml.YAMLUnmarshalerToJSONBytes(unmarshal)
+	if err != nil {
 		return err
 	}
-	if rawSetStringExample.Value == nil {
-		rawSetStringExample.Value = make([]string, 0)
-	}
-	*o = SetStringExample(rawSetStringExample)
-	return nil
+	return safejson.Unmarshal(jsonBytes, *&o)
 }
 
 type SetDoubleExample struct {
-	Value []float64 `json:"value" yaml:"value,omitempty"`
+	Value []float64 `json:"value"`
 }
 
 func (o SetDoubleExample) MarshalJSON() ([]byte, error) {
@@ -215,28 +201,23 @@ func (o *SetDoubleExample) UnmarshalJSON(data []byte) error {
 }
 
 func (o SetDoubleExample) MarshalYAML() (interface{}, error) {
-	if o.Value == nil {
-		o.Value = make([]float64, 0)
+	jsonBytes, err := safejson.Marshal(o)
+	if err != nil {
+		return nil, err
 	}
-	type SetDoubleExampleAlias SetDoubleExample
-	return SetDoubleExampleAlias(o), nil
+	return safeyaml.JSONtoYAMLMapSlice(jsonBytes)
 }
 
 func (o *SetDoubleExample) UnmarshalYAML(unmarshal func(interface{}) error) error {
-	type SetDoubleExampleAlias SetDoubleExample
-	var rawSetDoubleExample SetDoubleExampleAlias
-	if err := unmarshal(&rawSetDoubleExample); err != nil {
+	jsonBytes, err := safeyaml.YAMLUnmarshalerToJSONBytes(unmarshal)
+	if err != nil {
 		return err
 	}
-	if rawSetDoubleExample.Value == nil {
-		rawSetDoubleExample.Value = make([]float64, 0)
-	}
-	*o = SetDoubleExample(rawSetDoubleExample)
-	return nil
+	return safejson.Unmarshal(jsonBytes, *&o)
 }
 
 type MapExample struct {
-	Value map[string]string `json:"value" yaml:"value,omitempty"`
+	Value map[string]string `json:"value"`
 }
 
 func (o MapExample) MarshalJSON() ([]byte, error) {
@@ -261,36 +242,31 @@ func (o *MapExample) UnmarshalJSON(data []byte) error {
 }
 
 func (o MapExample) MarshalYAML() (interface{}, error) {
-	if o.Value == nil {
-		o.Value = make(map[string]string, 0)
+	jsonBytes, err := safejson.Marshal(o)
+	if err != nil {
+		return nil, err
 	}
-	type MapExampleAlias MapExample
-	return MapExampleAlias(o), nil
+	return safeyaml.JSONtoYAMLMapSlice(jsonBytes)
 }
 
 func (o *MapExample) UnmarshalYAML(unmarshal func(interface{}) error) error {
-	type MapExampleAlias MapExample
-	var rawMapExample MapExampleAlias
-	if err := unmarshal(&rawMapExample); err != nil {
+	jsonBytes, err := safeyaml.YAMLUnmarshalerToJSONBytes(unmarshal)
+	if err != nil {
 		return err
 	}
-	if rawMapExample.Value == nil {
-		rawMapExample.Value = make(map[string]string, 0)
-	}
-	*o = MapExample(rawMapExample)
-	return nil
+	return safejson.Unmarshal(jsonBytes, *&o)
 }
 
 type OptionalExample struct {
-	Value *string `json:"value" yaml:"value,omitempty"`
+	Value *string `json:"value"`
 }
 
 type LongOptionalExample struct {
-	SomeLongName *string `json:"someLongName" yaml:"someLongName,omitempty"`
+	SomeLongName *string `json:"someLongName"`
 }
 
 type EnumFieldExample struct {
-	Enum EnumExample `json:"enum" yaml:"enum,omitempty"`
+	Enum EnumExample `json:"enum"`
 }
 
 type EmptyObjectExample struct {
@@ -298,21 +274,21 @@ type EmptyObjectExample struct {
 
 type ObjectExample struct {
 	// docs for string field
-	String string `json:"string" yaml:"string,omitempty" conjure-docs:"docs for string field"`
+	String string `json:"string" conjure-docs:"docs for string field"`
 	// docs for integer field
-	Integer int `json:"integer" yaml:"integer,omitempty" conjure-docs:"docs for integer field"`
+	Integer int `json:"integer" conjure-docs:"docs for integer field"`
 	// docs for doubleValue field
-	DoubleValue float64 `json:"doubleValue" yaml:"doubleValue,omitempty" conjure-docs:"docs for doubleValue field"`
+	DoubleValue float64 `json:"doubleValue" conjure-docs:"docs for doubleValue field"`
 	// docs for optionalItem field
-	OptionalItem *string `json:"optionalItem" yaml:"optionalItem,omitempty" conjure-docs:"docs for optionalItem field"`
+	OptionalItem *string `json:"optionalItem" conjure-docs:"docs for optionalItem field"`
 	// docs for items field
-	Items []string `json:"items" yaml:"items,omitempty" conjure-docs:"docs for items field"`
+	Items []string `json:"items" conjure-docs:"docs for items field"`
 	// docs for set field
-	Set []string `json:"set" yaml:"set,omitempty" conjure-docs:"docs for set field"`
+	Set []string `json:"set" conjure-docs:"docs for set field"`
 	// docs for map field
-	Map map[string]string `json:"map" yaml:"map,omitempty" conjure-docs:"docs for map field"`
+	Map map[string]string `json:"map" conjure-docs:"docs for map field"`
 	// docs for alias field
-	Alias StringAliasExample `json:"alias" yaml:"alias,omitempty" conjure-docs:"docs for alias field"`
+	Alias StringAliasExample `json:"alias" conjure-docs:"docs for alias field"`
 }
 
 func (o ObjectExample) MarshalJSON() ([]byte, error) {
@@ -349,55 +325,38 @@ func (o *ObjectExample) UnmarshalJSON(data []byte) error {
 }
 
 func (o ObjectExample) MarshalYAML() (interface{}, error) {
-	if o.Items == nil {
-		o.Items = make([]string, 0)
+	jsonBytes, err := safejson.Marshal(o)
+	if err != nil {
+		return nil, err
 	}
-	if o.Set == nil {
-		o.Set = make([]string, 0)
-	}
-	if o.Map == nil {
-		o.Map = make(map[string]string, 0)
-	}
-	type ObjectExampleAlias ObjectExample
-	return ObjectExampleAlias(o), nil
+	return safeyaml.JSONtoYAMLMapSlice(jsonBytes)
 }
 
 func (o *ObjectExample) UnmarshalYAML(unmarshal func(interface{}) error) error {
-	type ObjectExampleAlias ObjectExample
-	var rawObjectExample ObjectExampleAlias
-	if err := unmarshal(&rawObjectExample); err != nil {
+	jsonBytes, err := safeyaml.YAMLUnmarshalerToJSONBytes(unmarshal)
+	if err != nil {
 		return err
 	}
-	if rawObjectExample.Items == nil {
-		rawObjectExample.Items = make([]string, 0)
-	}
-	if rawObjectExample.Set == nil {
-		rawObjectExample.Set = make([]string, 0)
-	}
-	if rawObjectExample.Map == nil {
-		rawObjectExample.Map = make(map[string]string, 0)
-	}
-	*o = ObjectExample(rawObjectExample)
-	return nil
+	return safejson.Unmarshal(jsonBytes, *&o)
 }
 
 type KebabCaseObjectExample struct {
-	KebabCasedField int `json:"kebab-cased-field" yaml:"kebab-cased-field,omitempty"`
+	KebabCasedField int `json:"kebab-cased-field"`
 }
 
 type SnakeCaseObjectExample struct {
-	SnakeCasedField int `json:"snake_cased_field" yaml:"snake_cased_field,omitempty"`
+	SnakeCasedField int `json:"snake_cased_field"`
 }
 
 type TestCases struct {
-	Client ClientTestCases `json:"client" yaml:"client,omitempty"`
+	Client ClientTestCases `json:"client"`
 }
 
 type ClientTestCases struct {
-	AutoDeserialize         map[EndpointName]PositiveAndNegativeTestCases `json:"autoDeserialize" yaml:"autoDeserialize,omitempty"`
-	SingleHeaderService     map[EndpointName][]string                     `json:"singleHeaderService" yaml:"singleHeaderService,omitempty"`
-	SinglePathParamService  map[EndpointName][]string                     `json:"singlePathParamService" yaml:"singlePathParamService,omitempty"`
-	SingleQueryParamService map[EndpointName][]string                     `json:"singleQueryParamService" yaml:"singleQueryParamService,omitempty"`
+	AutoDeserialize         map[EndpointName]PositiveAndNegativeTestCases `json:"autoDeserialize"`
+	SingleHeaderService     map[EndpointName][]string                     `json:"singleHeaderService"`
+	SinglePathParamService  map[EndpointName][]string                     `json:"singlePathParamService"`
+	SingleQueryParamService map[EndpointName][]string                     `json:"singleQueryParamService"`
 }
 
 func (o ClientTestCases) MarshalJSON() ([]byte, error) {
@@ -440,47 +399,24 @@ func (o *ClientTestCases) UnmarshalJSON(data []byte) error {
 }
 
 func (o ClientTestCases) MarshalYAML() (interface{}, error) {
-	if o.AutoDeserialize == nil {
-		o.AutoDeserialize = make(map[EndpointName]PositiveAndNegativeTestCases, 0)
+	jsonBytes, err := safejson.Marshal(o)
+	if err != nil {
+		return nil, err
 	}
-	if o.SingleHeaderService == nil {
-		o.SingleHeaderService = make(map[EndpointName][]string, 0)
-	}
-	if o.SinglePathParamService == nil {
-		o.SinglePathParamService = make(map[EndpointName][]string, 0)
-	}
-	if o.SingleQueryParamService == nil {
-		o.SingleQueryParamService = make(map[EndpointName][]string, 0)
-	}
-	type ClientTestCasesAlias ClientTestCases
-	return ClientTestCasesAlias(o), nil
+	return safeyaml.JSONtoYAMLMapSlice(jsonBytes)
 }
 
 func (o *ClientTestCases) UnmarshalYAML(unmarshal func(interface{}) error) error {
-	type ClientTestCasesAlias ClientTestCases
-	var rawClientTestCases ClientTestCasesAlias
-	if err := unmarshal(&rawClientTestCases); err != nil {
+	jsonBytes, err := safeyaml.YAMLUnmarshalerToJSONBytes(unmarshal)
+	if err != nil {
 		return err
 	}
-	if rawClientTestCases.AutoDeserialize == nil {
-		rawClientTestCases.AutoDeserialize = make(map[EndpointName]PositiveAndNegativeTestCases, 0)
-	}
-	if rawClientTestCases.SingleHeaderService == nil {
-		rawClientTestCases.SingleHeaderService = make(map[EndpointName][]string, 0)
-	}
-	if rawClientTestCases.SinglePathParamService == nil {
-		rawClientTestCases.SinglePathParamService = make(map[EndpointName][]string, 0)
-	}
-	if rawClientTestCases.SingleQueryParamService == nil {
-		rawClientTestCases.SingleQueryParamService = make(map[EndpointName][]string, 0)
-	}
-	*o = ClientTestCases(rawClientTestCases)
-	return nil
+	return safejson.Unmarshal(jsonBytes, *&o)
 }
 
 type PositiveAndNegativeTestCases struct {
-	Positive []string `json:"positive" yaml:"positive,omitempty"`
-	Negative []string `json:"negative" yaml:"negative,omitempty"`
+	Positive []string `json:"positive"`
+	Negative []string `json:"negative"`
 }
 
 func (o PositiveAndNegativeTestCases) MarshalJSON() ([]byte, error) {
@@ -511,41 +447,30 @@ func (o *PositiveAndNegativeTestCases) UnmarshalJSON(data []byte) error {
 }
 
 func (o PositiveAndNegativeTestCases) MarshalYAML() (interface{}, error) {
-	if o.Positive == nil {
-		o.Positive = make([]string, 0)
+	jsonBytes, err := safejson.Marshal(o)
+	if err != nil {
+		return nil, err
 	}
-	if o.Negative == nil {
-		o.Negative = make([]string, 0)
-	}
-	type PositiveAndNegativeTestCasesAlias PositiveAndNegativeTestCases
-	return PositiveAndNegativeTestCasesAlias(o), nil
+	return safeyaml.JSONtoYAMLMapSlice(jsonBytes)
 }
 
 func (o *PositiveAndNegativeTestCases) UnmarshalYAML(unmarshal func(interface{}) error) error {
-	type PositiveAndNegativeTestCasesAlias PositiveAndNegativeTestCases
-	var rawPositiveAndNegativeTestCases PositiveAndNegativeTestCasesAlias
-	if err := unmarshal(&rawPositiveAndNegativeTestCases); err != nil {
+	jsonBytes, err := safeyaml.YAMLUnmarshalerToJSONBytes(unmarshal)
+	if err != nil {
 		return err
 	}
-	if rawPositiveAndNegativeTestCases.Positive == nil {
-		rawPositiveAndNegativeTestCases.Positive = make([]string, 0)
-	}
-	if rawPositiveAndNegativeTestCases.Negative == nil {
-		rawPositiveAndNegativeTestCases.Negative = make([]string, 0)
-	}
-	*o = PositiveAndNegativeTestCases(rawPositiveAndNegativeTestCases)
-	return nil
+	return safejson.Unmarshal(jsonBytes, *&o)
 }
 
 type IgnoredTestCases struct {
-	Client IgnoredClientTestCases `json:"client" yaml:"client,omitempty"`
+	Client IgnoredClientTestCases `json:"client"`
 }
 
 type IgnoredClientTestCases struct {
-	AutoDeserialize         map[EndpointName][]string `json:"autoDeserialize" yaml:"autoDeserialize,omitempty"`
-	SingleHeaderService     map[EndpointName][]string `json:"singleHeaderService" yaml:"singleHeaderService,omitempty"`
-	SinglePathParamService  map[EndpointName][]string `json:"singlePathParamService" yaml:"singlePathParamService,omitempty"`
-	SingleQueryParamService map[EndpointName][]string `json:"singleQueryParamService" yaml:"singleQueryParamService,omitempty"`
+	AutoDeserialize         map[EndpointName][]string `json:"autoDeserialize"`
+	SingleHeaderService     map[EndpointName][]string `json:"singleHeaderService"`
+	SinglePathParamService  map[EndpointName][]string `json:"singlePathParamService"`
+	SingleQueryParamService map[EndpointName][]string `json:"singleQueryParamService"`
 }
 
 func (o IgnoredClientTestCases) MarshalJSON() ([]byte, error) {
@@ -588,40 +513,17 @@ func (o *IgnoredClientTestCases) UnmarshalJSON(data []byte) error {
 }
 
 func (o IgnoredClientTestCases) MarshalYAML() (interface{}, error) {
-	if o.AutoDeserialize == nil {
-		o.AutoDeserialize = make(map[EndpointName][]string, 0)
+	jsonBytes, err := safejson.Marshal(o)
+	if err != nil {
+		return nil, err
 	}
-	if o.SingleHeaderService == nil {
-		o.SingleHeaderService = make(map[EndpointName][]string, 0)
-	}
-	if o.SinglePathParamService == nil {
-		o.SinglePathParamService = make(map[EndpointName][]string, 0)
-	}
-	if o.SingleQueryParamService == nil {
-		o.SingleQueryParamService = make(map[EndpointName][]string, 0)
-	}
-	type IgnoredClientTestCasesAlias IgnoredClientTestCases
-	return IgnoredClientTestCasesAlias(o), nil
+	return safeyaml.JSONtoYAMLMapSlice(jsonBytes)
 }
 
 func (o *IgnoredClientTestCases) UnmarshalYAML(unmarshal func(interface{}) error) error {
-	type IgnoredClientTestCasesAlias IgnoredClientTestCases
-	var rawIgnoredClientTestCases IgnoredClientTestCasesAlias
-	if err := unmarshal(&rawIgnoredClientTestCases); err != nil {
+	jsonBytes, err := safeyaml.YAMLUnmarshalerToJSONBytes(unmarshal)
+	if err != nil {
 		return err
 	}
-	if rawIgnoredClientTestCases.AutoDeserialize == nil {
-		rawIgnoredClientTestCases.AutoDeserialize = make(map[EndpointName][]string, 0)
-	}
-	if rawIgnoredClientTestCases.SingleHeaderService == nil {
-		rawIgnoredClientTestCases.SingleHeaderService = make(map[EndpointName][]string, 0)
-	}
-	if rawIgnoredClientTestCases.SinglePathParamService == nil {
-		rawIgnoredClientTestCases.SinglePathParamService = make(map[EndpointName][]string, 0)
-	}
-	if rawIgnoredClientTestCases.SingleQueryParamService == nil {
-		rawIgnoredClientTestCases.SingleQueryParamService = make(map[EndpointName][]string, 0)
-	}
-	*o = IgnoredClientTestCases(rawIgnoredClientTestCases)
-	return nil
+	return safejson.Unmarshal(jsonBytes, *&o)
 }

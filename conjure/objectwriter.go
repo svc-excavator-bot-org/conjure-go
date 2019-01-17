@@ -67,7 +67,6 @@ func astForObject(objectDefinition spec.ObjectDefinition, info types.PkgInfo) ([
 		fieldName := string(fieldDefinition.FieldName)
 		tags := []string{
 			fmt.Sprintf("json:%q", fieldName),
-			fmt.Sprintf(`yaml:"%s,omitempty"`, fieldName),
 		}
 
 		comment := transforms.Documentation(fieldDefinition.Docs)
@@ -194,70 +193,11 @@ func astForStructJSONUnmarshal(objectDefinition spec.ObjectDefinition, info type
 }
 
 func astForStructYAMLMarshal(objectDefinition spec.ObjectDefinition, info types.PkgInfo) (astgen.ASTDecl, error) {
-	var body []astgen.ASTStmt
-	marshalInit, err := structMarshalInitDecls(objectDefinition, objReceiverName, info)
-	if err != nil {
-		return nil, err
-	}
-	body = append(body, marshalInit...)
-
-	aliasTypeName := objectDefinition.TypeName.Name + "Alias"
-	body = append(body, statement.NewDecl(
-		&decl.Alias{
-			Name: aliasTypeName,
-			Type: expression.Type(objectDefinition.TypeName.Name),
-		},
-	))
-
-	body = append(body, statement.NewReturn(
-		expression.NewCallExpression(expression.VariableVal(aliasTypeName), expression.VariableVal(objReceiverName)),
-		expression.Nil,
-	))
-
-	return newMarshalYAMLMethod(objReceiverName, objectDefinition.TypeName.Name, body...), nil
+	return newMarshalYAMLMethod(objReceiverName, objectDefinition.TypeName.Name, info), nil
 }
 
 func astForStructYAMLUnmarshal(objectDefinition spec.ObjectDefinition, info types.PkgInfo) (astgen.ASTDecl, error) {
-	var body []astgen.ASTStmt
-	aliasTypeName := objectDefinition.TypeName.Name + "Alias"
-	body = append(body, statement.NewDecl(
-		&decl.Alias{
-			Name: aliasTypeName,
-			Type: expression.Type(objectDefinition.TypeName.Name),
-		},
-	))
-
-	rawVarName := fmt.Sprint("raw", objectDefinition.TypeName.Name)
-	body = append(body, statement.NewDecl(
-		decl.NewVar(rawVarName, expression.Type(aliasTypeName)),
-	))
-
-	body = append(body, ifErrNotNilReturnErrStatement("err",
-		statement.NewAssignment(
-			expression.VariableVal("err"),
-			token.DEFINE,
-			expression.NewCallExpression(
-				expression.VariableVal("unmarshal"),
-				expression.NewUnary(token.AND, expression.VariableVal(rawVarName)),
-			),
-		),
-	))
-
-	marshalInit, err := structMarshalInitDecls(objectDefinition, rawVarName, info)
-	if err != nil {
-		return nil, err
-	}
-	body = append(body, marshalInit...)
-
-	body = append(body, statement.NewAssignment(
-		expression.NewStar(expression.VariableVal(objReceiverName)),
-		token.ASSIGN,
-		expression.NewCallExpression(expression.VariableVal(objectDefinition.TypeName.Name), expression.VariableVal(rawVarName)),
-	))
-
-	body = append(body, statement.NewReturn(expression.Nil))
-
-	return newUnmarshalYAMLMethod(objReceiverName, objectDefinition.TypeName.Name, body...), nil
+	return newUnmarshalYAMLMethod(objReceiverName, objectDefinition.TypeName.Name, info), nil
 }
 
 func structMarshalInitDecls(objectDefinition spec.ObjectDefinition, variableVal string, info types.PkgInfo) ([]astgen.ASTStmt, error) {

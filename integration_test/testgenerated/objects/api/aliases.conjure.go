@@ -4,6 +4,7 @@ package api
 
 import (
 	"github.com/palantir/pkg/safejson"
+	"github.com/palantir/pkg/safeyaml"
 	"github.com/palantir/pkg/uuid"
 )
 
@@ -56,16 +57,19 @@ func (a *UuidAlias2) UnmarshalJSON(data []byte) error {
 }
 
 func (a UuidAlias2) MarshalYAML() (interface{}, error) {
-	return Compound(a), nil
+	jsonBytes, err := safejson.Marshal(a)
+	if err != nil {
+		return nil, err
+	}
+	return safeyaml.JSONtoYAMLMapSlice(jsonBytes)
 }
 
 func (a *UuidAlias2) UnmarshalYAML(unmarshal func(interface{}) error) error {
-	var rawUuidAlias2 Compound
-	if err := unmarshal(&rawUuidAlias2); err != nil {
+	jsonBytes, err := safeyaml.YAMLUnmarshalerToJSONBytes(unmarshal)
+	if err != nil {
 		return err
 	}
-	*a = UuidAlias2(rawUuidAlias2)
-	return nil
+	return safejson.Unmarshal(jsonBytes, *&a)
 }
 
 type BinaryAlias []byte

@@ -3,5 +3,5 @@
 package api
 
 type Basic struct {
-	Data string `json:"data" yaml:"data,omitempty"`
+	Data string `json:"data"`
 }

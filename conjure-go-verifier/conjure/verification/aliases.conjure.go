@@ -8,6 +8,7 @@ import (
 	"github.com/palantir/pkg/rid"
 	"github.com/palantir/pkg/safejson"
 	"github.com/palantir/pkg/safelong"
+	"github.com/palantir/pkg/safeyaml"
 	"github.com/palantir/pkg/uuid"
 )
 
@@ -32,16 +33,19 @@ func (a *SafeLongAliasExample) UnmarshalJSON(data []byte) error {
 }
 
 func (a SafeLongAliasExample) MarshalYAML() (interface{}, error) {
-	return safelong.SafeLong(a), nil
+	jsonBytes, err := safejson.Marshal(a)
+	if err != nil {
+		return nil, err
+	}
+	return safeyaml.JSONtoYAMLMapSlice(jsonBytes)
 }
 
 func (a *SafeLongAliasExample) UnmarshalYAML(unmarshal func(interface{}) error) error {
-	var rawSafeLongAliasExample safelong.SafeLong
-	if err := unmarshal(&rawSafeLongAliasExample); err != nil {
+	jsonBytes, err := safeyaml.YAMLUnmarshalerToJSONBytes(unmarshal)
+	if err != nil {
 		return err
 	}
-	*a = SafeLongAliasExample(rawSafeLongAliasExample)
-	return nil
+	return safejson.Unmarshal(jsonBytes, *&a)
 }
 
 type RidAliasExample rid.ResourceIdentifier
@@ -105,16 +109,19 @@ func (a *ReferenceAliasExample) UnmarshalJSON(data []byte) error {
 }
 
 func (a ReferenceAliasExample) MarshalYAML() (interface{}, error) {
-	return AnyExample(a), nil
+	jsonBytes, err := safejson.Marshal(a)
+	if err != nil {
+		return nil, err
+	}
+	return safeyaml.JSONtoYAMLMapSlice(jsonBytes)
 }
 
 func (a *ReferenceAliasExample) UnmarshalYAML(unmarshal func(interface{}) error) error {
-	var rawReferenceAliasExample AnyExample
-	if err := unmarshal(&rawReferenceAliasExample); err != nil {
+	jsonBytes, err := safeyaml.YAMLUnmarshalerToJSONBytes(unmarshal)
+	if err != nil {
 		return err
 	}
-	*a = ReferenceAliasExample(rawReferenceAliasExample)
-	return nil
+	return safejson.Unmarshal(jsonBytes, *&a)
 }
 
 type DateTimeAliasExample datetime.DateTime

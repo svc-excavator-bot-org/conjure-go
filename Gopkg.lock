@@ -137,7 +137,8 @@
   revision = "b1ed892ec69d3d15522153c8e0192fe00cf2e601"
 
 [[projects]]
-  digest = "1:48882decddeb22735005bc98083fe776e79fedbe7f1447eaaa17b95ef6bb1ae6"
+  branch = "bm/yaml"
+  digest = "1:dce32759f213f39c3147d8e9d2ebc8c85d98f13887baf4fc77465c244a521a73"
   name = "github.com/palantir/pkg"
   packages = [
     "bearertoken",
@@ -153,13 +154,14 @@
     "rid",
     "safejson",
     "safelong",
+    "safeyaml",
     "tlsconfig",
+    "transform",
     "uuid",
     "uuid/internal/uuid",
   ]
   pruneopts = "UT"
-  revision = "b2b34217111b014adb22fa992d96f52aefea654d"
-  version = "0.9.3"
+  revision = "76a3a0b59f3c6394e1bf5695bf41c5854510f586"
 
 [[projects]]
   branch = "develop"
@@ -373,6 +375,7 @@
     "github.com/palantir/pkg/rid",
     "github.com/palantir/pkg/safejson",
     "github.com/palantir/pkg/safelong",
+    "github.com/palantir/pkg/safeyaml",
     "github.com/palantir/pkg/uuid",
     "github.com/palantir/witchcraft-go-server/rest",
     "github.com/pkg/errors",
