@@ -137,8 +137,8 @@
   revision = "b1ed892ec69d3d15522153c8e0192fe00cf2e601"
 
 [[projects]]
-  branch = "bm/yaml"
-  digest = "1:dce32759f213f39c3147d8e9d2ebc8c85d98f13887baf4fc77465c244a521a73"
+  branch = "bm/yamltojson"
+  digest = "1:68c5d1f6c37366d59c052159e63d9b04210c7473b2e0c0a3c0a43fd66e48431a"
   name = "github.com/palantir/pkg"
   packages = [
     "bearertoken",
@@ -161,7 +161,7 @@
     "uuid/internal/uuid",
   ]
   pruneopts = "UT"
-  revision = "76a3a0b59f3c6394e1bf5695bf41c5854510f586"
+  revision = "4ec2461429dfd5daf6e00327d71c3a3712fe375c"
 
 [[projects]]
   branch = "develop"

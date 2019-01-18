@@ -30,7 +30,7 @@
 
 [[override]]
   name = "github.com/palantir/pkg"
-  branch = "bm/yaml"
+  branch = "bm/yamltojson"
 
 [prune]
   go-tests = true
