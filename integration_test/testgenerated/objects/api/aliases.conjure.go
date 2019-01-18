@@ -26,6 +26,22 @@ func (a *OptionalUuidAlias) UnmarshalText(data []byte) error {
 	return a.Value.UnmarshalText(data)
 }
 
+func (a OptionalUuidAlias) MarshalYAML() (interface{}, error) {
+	jsonBytes, err := safejson.Marshal(a)
+	if err != nil {
+		return nil, err
+	}
+	return safeyaml.JSONtoYAMLMapSlice(jsonBytes)
+}
+
+func (a *OptionalUuidAlias) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	jsonBytes, err := safeyaml.YAMLUnmarshalerToJSONBytes(unmarshal)
+	if err != nil {
+		return err
+	}
+	return safejson.Unmarshal(jsonBytes, *&a)
+}
+
 type UuidAlias uuid.UUID
 
 func (a UuidAlias) MarshalText() ([]byte, error) {
@@ -39,6 +55,22 @@ func (a *UuidAlias) UnmarshalText(data []byte) error {
 	}
 	*a = UuidAlias(rawUuidAlias)
 	return nil
+}
+
+func (a UuidAlias) MarshalYAML() (interface{}, error) {
+	jsonBytes, err := safejson.Marshal(a)
+	if err != nil {
+		return nil, err
+	}
+	return safeyaml.JSONtoYAMLMapSlice(jsonBytes)
+}
+
+func (a *UuidAlias) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	jsonBytes, err := safeyaml.YAMLUnmarshalerToJSONBytes(unmarshal)
+	if err != nil {
+		return err
+	}
+	return safejson.Unmarshal(jsonBytes, *&a)
 }
 
 type UuidAlias2 Compound

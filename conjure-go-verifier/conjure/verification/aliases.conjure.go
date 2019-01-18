@@ -63,6 +63,22 @@ func (a *RidAliasExample) UnmarshalText(data []byte) error {
 	return nil
 }
 
+func (a RidAliasExample) MarshalYAML() (interface{}, error) {
+	jsonBytes, err := safejson.Marshal(a)
+	if err != nil {
+		return nil, err
+	}
+	return safeyaml.JSONtoYAMLMapSlice(jsonBytes)
+}
+
+func (a *RidAliasExample) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	jsonBytes, err := safeyaml.YAMLUnmarshalerToJSONBytes(unmarshal)
+	if err != nil {
+		return err
+	}
+	return safejson.Unmarshal(jsonBytes, *&a)
+}
+
 type BearerTokenAliasExample bearertoken.Token
 
 func (a BearerTokenAliasExample) MarshalText() ([]byte, error) {
@@ -78,6 +94,22 @@ func (a *BearerTokenAliasExample) UnmarshalText(data []byte) error {
 	return nil
 }
 
+func (a BearerTokenAliasExample) MarshalYAML() (interface{}, error) {
+	jsonBytes, err := safejson.Marshal(a)
+	if err != nil {
+		return nil, err
+	}
+	return safeyaml.JSONtoYAMLMapSlice(jsonBytes)
+}
+
+func (a *BearerTokenAliasExample) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	jsonBytes, err := safeyaml.YAMLUnmarshalerToJSONBytes(unmarshal)
+	if err != nil {
+		return err
+	}
+	return safejson.Unmarshal(jsonBytes, *&a)
+}
+
 type UuidAliasExample uuid.UUID
 
 func (a UuidAliasExample) MarshalText() ([]byte, error) {
@@ -91,6 +123,22 @@ func (a *UuidAliasExample) UnmarshalText(data []byte) error {
 	}
 	*a = UuidAliasExample(rawUuidAliasExample)
 	return nil
+}
+
+func (a UuidAliasExample) MarshalYAML() (interface{}, error) {
+	jsonBytes, err := safejson.Marshal(a)
+	if err != nil {
+		return nil, err
+	}
+	return safeyaml.JSONtoYAMLMapSlice(jsonBytes)
+}
+
+func (a *UuidAliasExample) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	jsonBytes, err := safeyaml.YAMLUnmarshalerToJSONBytes(unmarshal)
+	if err != nil {
+		return err
+	}
+	return safejson.Unmarshal(jsonBytes, *&a)
 }
 
 type ReferenceAliasExample AnyExample
@@ -137,6 +185,22 @@ func (a *DateTimeAliasExample) UnmarshalText(data []byte) error {
 	}
 	*a = DateTimeAliasExample(rawDateTimeAliasExample)
 	return nil
+}
+
+func (a DateTimeAliasExample) MarshalYAML() (interface{}, error) {
+	jsonBytes, err := safejson.Marshal(a)
+	if err != nil {
+		return nil, err
+	}
+	return safeyaml.JSONtoYAMLMapSlice(jsonBytes)
+}
+
+func (a *DateTimeAliasExample) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	jsonBytes, err := safeyaml.YAMLUnmarshalerToJSONBytes(unmarshal)
+	if err != nil {
+		return err
+	}
+	return safejson.Unmarshal(jsonBytes, *&a)
 }
 
 type BinaryAliasExample []byte

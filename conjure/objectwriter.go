@@ -92,8 +92,6 @@ func astForObject(objectDefinition spec.ObjectDefinition, info types.PkgInfo) ([
 		for _, f := range []serdeFunc{
 			astForStructJSONMarshal,
 			astForStructJSONUnmarshal,
-			astForStructYAMLMarshal,
-			astForStructYAMLUnmarshal,
 		} {
 			serdeDecl, err := f(objectDefinition, info)
 			if err != nil {
@@ -102,6 +100,10 @@ func astForObject(objectDefinition spec.ObjectDefinition, info types.PkgInfo) ([
 			decls = append(decls, serdeDecl)
 		}
 	}
+
+	decls = append(decls, newMarshalYAMLMethod(objReceiverName, objectDefinition.TypeName.Name, info))
+	decls = append(decls, newUnmarshalYAMLMethod(objReceiverName, objectDefinition.TypeName.Name, info))
+
 	return decls, nil
 }
 
@@ -190,14 +192,6 @@ func astForStructJSONUnmarshal(objectDefinition spec.ObjectDefinition, info type
 	body = append(body, statement.NewReturn(expression.Nil))
 
 	return newUnmarshalJSONMethod(objReceiverName, objectDefinition.TypeName.Name, body...), nil
-}
-
-func astForStructYAMLMarshal(objectDefinition spec.ObjectDefinition, info types.PkgInfo) (astgen.ASTDecl, error) {
-	return newMarshalYAMLMethod(objReceiverName, objectDefinition.TypeName.Name, info), nil
-}
-
-func astForStructYAMLUnmarshal(objectDefinition spec.ObjectDefinition, info types.PkgInfo) (astgen.ASTDecl, error) {
-	return newUnmarshalYAMLMethod(objReceiverName, objectDefinition.TypeName.Name, info), nil
 }
 
 func structMarshalInitDecls(objectDefinition spec.ObjectDefinition, variableVal string, info types.PkgInfo) ([]astgen.ASTStmt, error) {

@@ -98,9 +98,9 @@ func astForAlias(aliasDefinition spec.AliasDefinition, info types.PkgInfo) ([]as
 		default:
 			decls = append(decls, astForOptionalAliasJSONMarshal(aliasDefinition, info))
 			decls = append(decls, astForOptionalAliasJSONUnmarshal(aliasDefinition, valueInit, info))
-			decls = append(decls, newMarshalYAMLMethod(aliasReceiverName, aliasDefinition.TypeName.Name, info))
-			decls = append(decls, newUnmarshalYAMLMethod(aliasReceiverName, aliasDefinition.TypeName.Name, info))
 		}
+		decls = append(decls, newMarshalYAMLMethod(aliasReceiverName, aliasDefinition.TypeName.Name, info))
+		decls = append(decls, newUnmarshalYAMLMethod(aliasReceiverName, aliasDefinition.TypeName.Name, info))
 
 	case len(aliasTyper.ImportPaths()) == 0:
 		// Plain builtins do not need encoding methods; do nothing.
@@ -108,6 +108,8 @@ func astForAlias(aliasDefinition spec.AliasDefinition, info types.PkgInfo) ([]as
 		// If we have gotten here, we have a non-go-builtin text type that implements MarshalText/UnmarshalText.
 		decls = append(decls, astForAliasTextMarshal(aliasDefinition, aliasGoType))
 		decls = append(decls, astForAliasTextUnmarshal(aliasDefinition, aliasGoType))
+		decls = append(decls, newMarshalYAMLMethod(aliasReceiverName, aliasDefinition.TypeName.Name, info))
+		decls = append(decls, newUnmarshalYAMLMethod(aliasReceiverName, aliasDefinition.TypeName.Name, info))
 	default:
 		// By default, we delegate json/yaml encoding to the aliased type.
 		decls = append(decls, astForAliasJSONMarshal(aliasDefinition, aliasGoType, info))
@@ -115,6 +117,7 @@ func astForAlias(aliasDefinition spec.AliasDefinition, info types.PkgInfo) ([]as
 		decls = append(decls, newMarshalYAMLMethod(aliasReceiverName, aliasDefinition.TypeName.Name, info))
 		decls = append(decls, newUnmarshalYAMLMethod(aliasReceiverName, aliasDefinition.TypeName.Name, info))
 	}
+
 	return decls, nil
 }
 
